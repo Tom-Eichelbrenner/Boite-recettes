@@ -7,23 +7,37 @@ import recettes from "./recettes";
 import Admin from "./components/Admin";
 import Card from "./components/Card";
 
-class App extends Component {
-  state = {
-    pseudo: this.props.match.params.pseudo,
-    recettes: {}
-  }
+import base from "./base";
 
-  render () {
-      const cards = Object.keys(this.state.recettes)
-          .map(key =>
-              <Card
-                  key={key}
-                  details={this.state.recettes[key]}/>
-          )
-      return (
-          <div className='box'>
-              <Header pseudo={this.state.pseudo}/>
-              <div className="cards">
+class App extends Component {
+    state = {
+        pseudo: this.props.match.params.pseudo,
+        recettes: {}
+    }
+
+
+    componentDidMount() {
+        this.ref = base.syncState(`/${this.state.pseudo}/recettes`, {
+            context: this,
+            state: 'recettes'
+        })
+    }
+
+    componentWillUnmount() {
+        base.removeBinding(this.ref)
+    }
+
+    render() {
+        const cards = Object.keys(this.state.recettes)
+            .map(key =>
+                <Card
+                    key={key}
+                    details={this.state.recettes[key]}/>
+            )
+        return (
+            <div className='box'>
+                <Header pseudo={this.state.pseudo}/>
+                <div className="cards">
                   <div className="card">
                       {cards}
                   </div>
