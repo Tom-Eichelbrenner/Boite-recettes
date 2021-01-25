@@ -2,6 +2,7 @@ import React from 'react';
 
 const AdminForm = (
     {
+        deleteRecipe,
         id: key,
         updateRecipe,
         recettes
@@ -24,7 +25,7 @@ const AdminForm = (
                 <textarea onChange={e => handleChange(e,key)} value={recette.ingredients} name="ingredients" rows="3" placeholder={"Liste des ingrédients"}/>
                 <textarea onChange={e => handleChange(e,key)} value={recette.instructions} name="instructions" rows="15" placeholder={"Liste des instructions"}/>
             </form>
-            <button>Supprimer</button>
+            <button onClick={() => deleteRecipe(key)}>Supprimer</button>
         </div>
         );
 };

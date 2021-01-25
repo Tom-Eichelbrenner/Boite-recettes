@@ -43,6 +43,7 @@ class App extends Component {
                     </div>
                 </div>
                 <Admin
+                    deleteRecipe={this.deleteRecipe}
                     recettes={this.state.recettes}
                     updateRecipe={this.updateRecipe}
                     addRecipe={this.addRecipe}
@@ -67,6 +68,11 @@ class App extends Component {
         this.setState({recettes})
     }
 
+    deleteRecipe = key => {
+        const recettes = {...this.state.recettes}
+        recettes[key] = null
+        this.setState({recettes})
+    }
 
 }
 
