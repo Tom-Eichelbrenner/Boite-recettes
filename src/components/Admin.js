@@ -6,7 +6,7 @@ class Admin extends Component {
         return (
             <div className="cards">
                 <AjouterRecette
-                    ajouterRecette={this.props.ajouterRecette}/>
+                    addRecipe={this.props.addRecipe}/>
                 <footer>
                     <button onClick={this.props.loadExample}>Remplir</button>
                 </footer>
