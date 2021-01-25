@@ -38,19 +38,28 @@ class App extends Component {
             <div className='box'>
                 <Header pseudo={this.state.pseudo}/>
                 <div className="cards">
-                  <div className="card">
-                      {cards}
-                  </div>
-              </div>
-              <Admin
-                  loadExample={this.loadExample}/>
-          </div>
-      )
-  }
+                    <div className="card">
+                        {cards}
+                    </div>
+                </div>
+                <Admin
+                    addRecipe={this.addRecipe}
+                    loadExample={this.loadExample}/>
+            </div>
+        )
+    }
 
-  loadExample = () => {
-    this.setState({recettes})
-  };
+    loadExample = () => {
+        this.setState({recettes})
+    };
+
+    addRecipe = recette => {
+        const recettes = this.state.recettes;
+        recettes[`recette-${Date.now()}`] = recette
+        this.setState({recettes})
+    }
+
+
 }
 
 export default App
