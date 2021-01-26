@@ -1,10 +1,57 @@
 import React, {Component} from 'react';
 import AjouterRecette from "./AjouterRecette";
 import AdminForm from "./AdminForm";
+import 'firebase/auth'
+import base, {firebaseApp} from "../base";
+import Login from "./login";
+import firebase from "firebase/app";
 
 class Admin extends Component {
+
+    state = {
+        uid: null,
+        chef: null
+    }
+
+    authenticate = () => {
+        const authProvider = new firebase.auth.FacebookAuthProvider()
+
+        firebaseApp
+            .auth()
+            .signInWithPopup(authProvider)
+            .then(this.handleAuth)
+    }
+
+    handleAuth = async authData => {
+        const box = await base.fetch(this.props.pseudo, { context: this})
+
+        if (!box.chef) {
+            await base.post(`${this.props.pseudo}/chef`, {
+                data: authData.user.uid
+            })
+        }
+
+        this.setState({
+            uid: authData.user.uid,
+            chef: box.chef || authData.user.uid
+        })
+    };
+
     render() {
         const {deleteRecipe,addRecipe, recettes, loadExample, updateRecipe} = this.props
+
+        if (!this.state.uid) {
+            return <Login authenticate={this.authenticate}/>
+        }
+
+        if (this.state.uid !== this.state.chef) {
+            return (
+                <div>
+                    <p>Tu n'es pas le chef de cette boite ! </p>
+                </div>
+            )
+        }
+
         return (
             <div className="cards">
                 <AjouterRecette
