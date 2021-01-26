@@ -10,7 +10,8 @@ class Admin extends Component {
 
     state = {
         uid: null,
-        chef: null
+        chef: null,
+        fb: null,
     }
 
 
@@ -39,10 +40,12 @@ class Admin extends Component {
 
     handleAuth = async authData => {
         const box = await base.fetch(this.props.pseudo, {context: this})
-
         if (!box.chef) {
             await base.post(`${this.props.pseudo}/chef`, {
                 data: authData.user.uid
+            })
+            await base.post(`${this.props.pseudo}/fb`, {
+                data: authData.user.displayName
             })
         }
 
