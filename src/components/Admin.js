@@ -13,6 +13,16 @@ class Admin extends Component {
         chef: null
     }
 
+
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                this.handleAuth({user})
+            }
+        })
+    }
+
+
     authenticate = () => {
         const authProvider = new firebase.auth.FacebookAuthProvider()
 
